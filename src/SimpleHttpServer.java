@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.Map;
 
 public class SimpleHttpServer {
     private static final Logger logger = Logger.getLogger(SimpleHttpServer.class.getName());
@@ -15,6 +16,7 @@ public class SimpleHttpServer {
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/hello", new HelloHandler());
         server.createContext("/greet", new GreetHandler());
+        server.createContext("/users", new UserHandler());
         server.setExecutor(null); // create a default executor
         server.start();
         System.out.println("Server started on port 8080");
@@ -46,6 +48,10 @@ public class SimpleHttpServer {
             os.write(response.getBytes());
             os.close();
         }
+    }
+
+    static class UserHandler implements HttpHandler {
+
     }
 
     private static void logRequest(HttpExchange exchange) {
